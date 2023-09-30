@@ -6,7 +6,7 @@ This spawns up the flask app
 
 from os import getenv
 from flask import Flask, make_response, jsonify
-from api.vi.views import app_views
+from api.v1.views import app_views
 from models import storage
 
 app = Flask(__name__)
@@ -19,7 +19,7 @@ def page_not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 
-@app/teardown_appcontext
+@app.teardown_appcontext
 def teardown(self):
     """This closes the storage session in SQLAlchemy db"""
     storage.close()
