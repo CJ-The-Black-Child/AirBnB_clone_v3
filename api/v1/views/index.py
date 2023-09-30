@@ -12,10 +12,10 @@ def api_status():
     """
     This returns a JSON response for RESTful API status.
     """
-    return jsonify({"status:" "OK"})
+    return jsonify({"status": "OK"})
 
 
-@app_views('/stats', methods=['GET'], strict_slashes=False)
+@app_views.route('/stats', methods=['GET'], strict_slashes=False)
 def get_stats():
     """Here, we retrieve the object number by type."""
     return jsonify({
