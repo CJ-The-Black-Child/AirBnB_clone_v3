@@ -114,10 +114,25 @@ class TestFileStorage(unittest.TestCase):
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
 
-    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
-    def test_get(self):
-        """Test for method that retrieves objects from file storage."""
+    def test_get_cls(self):
+        """Tests the method that retrieves an object from file storage."""
+        storage = FileStorage()
+        self.assertIs(storage.get("User", "Timi"), None)
+        self.assertIs(storage.get("Timi", "Timi"), None)
+        user_obj = User()
+        user_obj.save()
+        self.assertIs(storage.get("User", user_obj), user_obj)
 
-    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
-    def count(self):
-        """Returns the number of objects in the file storage."""
+    @unittest.skipIf(os.getenv("HBNB_TYPE_STORAGE") == 'db',
+                     "On db storage")
+    def test_count_cls(self):
+        """Counts the number of instances of a class in the storage."""
+        storage = FileStorage()
+        initial_len = len(storage.all())
+        self.assertEqual(storage.count(), initial_len)
+        state_len = len(storage.all("State"))
+        self.assertEqual(storage.count("State"), state_len)
+        state_obj = State()
+        state_obj.save()
+        self.assertEqual(storage.count(), initial_len + 1)
+        self.assertEqual(storage.count("State"), state_len + 1)

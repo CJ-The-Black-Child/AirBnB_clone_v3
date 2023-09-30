@@ -87,10 +87,31 @@ class TestFileStorage(unittest.TestCase):
     def test_save(self):
         """Test that save properly saves objects to file.json"""
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_get(self):
-        """Test that gets an item from the db appropriately."""
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage.")
-    def count(self):
-        """Test for a function that counts the number of cls objs in db."""
+class TestDBStorage(unittest.TestCase):
+    """Tests for our db storage engine."""
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
+                     "not testing db storage")
+    def test_get_cls(self):
+        """Tests for returning a class object."""
+        state_obj = State(name="Kisii")
+        state_obj.save()
+        user_obj = User(email="st@gmail.com", password="snt")
+        user_obj.save()
+        self.assertIs(state_obj, models.storage.get("State", state_obj.id))
+        self.assertIs(None, models.storage.get("State", "Timi"))
+        self.assertIs(None, models.storage.get("Timi", "Timi"))
+        self.assertIs(user_obj, models.storage.get("User", user_obj.id))
+
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
+                     "not testing db storage")
+    def test_count_objs(self):
+        """Test whether the count function works properly."""
+        initial_count = models.storage.count()
+        self.assertEqual(models.storage.count("Timi"), 0)
+        state_obj = State(name="Kisii")
+        state_obj.save()
+        user_obj = User(email="cj@gmail.com", password="pwd")
+        user_obj.save()
+        self.assertEqual(models.storage.count("State"), initial_count + 1)
+        self.assertEqual(models.storage.count(), initial_count + 2)
