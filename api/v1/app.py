@@ -7,9 +7,11 @@ This spawns up the flask app
 from os import getenv
 from flask import Flask, make_response, jsonify
 from api.v1.views import app_views
+from flask_cors import CORS
 from models import storage
 
 app = Flask(__name__)
+CORS(app, resources={r"/api/v1/*": {"origins": "0.0.0.0"}})
 app.register_blueprint(app_views)
 
 
@@ -27,6 +29,6 @@ def teardown(self):
 
 if __name__ == '__main__':
     """ This is the main function"""
-    host_api = getenv('HBNB_API_HOST', default='0.0.0.0')
-    port_api = getenv('HBNB_API_PORT', default=5000)
-    app.run(host=host_api, port=int(port_api), threaded=True)
+    api_host = getenv('HBNB_API_HOST', default='0.0.0.0')
+    api_port = getenv('HBNB_API_PORT', default=5000)
+    app.run(host=api_host, port=int(api_port), threaded=True)

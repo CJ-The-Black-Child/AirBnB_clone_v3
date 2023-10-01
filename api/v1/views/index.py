@@ -8,7 +8,7 @@ from api.v1.views import app_views
 
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
-def api_status():
+def status():
     """
     This returns a JSON response for RESTful API status.
     """
@@ -16,7 +16,7 @@ def api_status():
 
 
 @app_views.route('/stats', methods=['GET'], strict_slashes=False)
-def get_stats():
+def stats():
     """Here, we retrieve the object number by type."""
     return jsonify({
         "amenities": storage.count("Amenity"),
@@ -25,4 +25,4 @@ def get_stats():
         "reviews": storage.count("Review"),
         "states": storage.count("State"),
         "users": storage.count("User")
-        })
+    })
