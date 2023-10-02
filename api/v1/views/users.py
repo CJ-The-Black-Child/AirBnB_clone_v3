@@ -22,7 +22,7 @@ def all_users():
     for user in storage.all("User").values():
         users.append(user.to_dict())
 
-        return jsonify(users)
+    return jsonify(users)
 
 
 @app_views.route('/users/<user_id>')
@@ -50,7 +50,7 @@ def delete_user(user_id):
     Deletes a user specified by id.
 
     Args:
-        user_id: The id of the user to deleteself.
+        user_id: The id of the user to delete.
 
     Returns:
         A 200 Ok response.
@@ -78,15 +78,15 @@ def add_user():
     if not request.get_json():
         abort(400, description="Not a JSON")
 
-    if not request.get_json().get("email"):
+    if not request.get_json().get('email'):
         abort(400, description="Missing email")
 
-    if not request.get_json().get("password"):
+    if not request.get_json().get('password'):
         abort(400, description="Missing password")
 
     user = User()
-    user.email = request.get_json()["email"]
-    user.password = request.get_json()["password"]
+    user.email = request.get_json()['email']
+    user.password = request.get_json()['password']
     user.save()
 
     return make_response(jsonify(user.to_dict()), 201)
