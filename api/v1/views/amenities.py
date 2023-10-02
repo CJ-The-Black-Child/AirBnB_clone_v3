@@ -1,12 +1,12 @@
 #!/usr/bin/python3
-"""Handles all CRUD operations for amenity objects"""
+"""Handles all CRUD operations for amenity objs"""
 from api.v1.views import app_views
 from models import storage
 from flask import jsonify, abort, make_response, request
 from models.amenity import Amenity
 
 
-@app_views.route('/amenities', methods['GET'], strict_slashes=False)
+@app_views.route('/amenities', methods=['GET'], strict_slashes=False)
 def all_amenities():
     """Returns all available amenities"""
     dct_amenities = storage.all(Amenity)
