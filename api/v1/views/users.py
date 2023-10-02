@@ -8,6 +8,7 @@ from flask import Flask, jsonify, abort, make_response, request
 from models import storage
 from models.user import User
 
+
 @app_views.route('/users')
 def all_users():
     """
@@ -22,6 +23,7 @@ def all_users():
         users.append(user.to_dict())
 
         return jsonify(users)
+
 
 @app_views.route('/users/<user_id>')
 def user(user_id):
@@ -40,6 +42,7 @@ def user(user_id):
         abort(404)
 
     return jsonify(user.to_dict())
+
 
 @app_views.route('/users/<user_id>', methods=['DELETE'])
 def delete_user(user_id):
@@ -62,11 +65,12 @@ def delete_user(user_id):
 
     return make_response(jsonify({}), 200)
 
+
 @app_views.route('/users', methods=['POST'])
 def add_user():
     """
     Creates a new user.
-        
+
     Returns:
         A 201 Created response with the new user dictionary in the body.
     """
@@ -86,6 +90,8 @@ def add_user():
     user.save()
 
     return make_response(jsonify(user.to_dict()), 201)
+
+
 @app_views.route('/users/<user_id>', methods=['PUT'])
 def update_user(user_id):
     """
