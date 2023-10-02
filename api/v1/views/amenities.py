@@ -43,7 +43,7 @@ def delete_amenity(amenity_id):
 
 
 @app_views.route('/amenities', methods=['POST'], strict_slashes=False)
-def post_amenity():
+def response_amenity():
     """Creates a new amenity"""
     if not request.get_json():
         return make_response(jsonify({"error": "Not a JSON"}), 400)
@@ -51,14 +51,14 @@ def post_amenity():
     if "name" not in req:
         return make_response(jsonify({"error": "Missing name"}), 400)
     amenities = Amenity(**req)
-    amenity.save()
+    amenities.save()
     return make_response(jsonify(amenities.to_dict()), 201)
 
 
 @app_views.route('/amenities/<amenity_id>',
                  methods=['PUT'],
                  strict_slashes=False)
-def update_ameity(amenity_id):
+def update_amenity(amenity_id):
     """Updates an amenity based on its id"""
     if amenity_id:
         amenities = storage.get(Amenity, amenity_id)
