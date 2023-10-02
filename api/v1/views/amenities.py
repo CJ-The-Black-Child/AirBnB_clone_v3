@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Handles all CRUD operations for amenity objects"""
+"""Handles all CRUD operations for amenity objs"""
 from api.v1.views import app_views
 from models import storage
 from flask import jsonify, abort, make_response, request
