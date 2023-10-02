@@ -2,7 +2,7 @@
 """View for User class"""
 from api.v1.views import app_views
 from models import storage
-from flask import jsonify, abort, make_response, request
+from flask import Flask, jsonify, abort, make_response, request
 from models.user import User
 
 
