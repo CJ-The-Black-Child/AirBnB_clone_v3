@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Create, Read, Update, and Delete methods for city objs"""
+"""Create, Read, Update, and Delete methods for cities objs"""
 from api.v1.views import app_views
 from models import storage
 from flask import jsonify, abort, make_response, request
