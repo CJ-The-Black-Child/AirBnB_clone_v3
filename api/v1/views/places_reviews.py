@@ -104,8 +104,10 @@ def update_review(review_id):
     if not request.is_json:
         abort(400, description="Not a JSON")
 
-    data = request.get_json()
-    for key, value in data.items():
+    if not request.get_json().get('text'):
+        abort(400, description="Missing text")
+
+    for key, value in request.get_json().items():
         if key not in (
                 "id", "created_at", "updated_at", "user_id", "place_id"
                 ):
