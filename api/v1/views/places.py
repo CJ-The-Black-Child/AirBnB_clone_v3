@@ -10,7 +10,7 @@ import json
 from os import getenv
 
 
-@app_views.route('/cities/<city_id>/places',
+@app_views.route('cities/<city_id>/places',
                  methods=['GET'],
                  strict_slashes=False)
 def get_places(city_id):
@@ -55,7 +55,7 @@ def delete_place(place_id):
             return make_response(jsonify({}), 200)
 
 
-@app_views.route('/cities/<city_id>/places',
+@app_views.route('cities/<city_id>/places',
                  methods=['POST'],
                  strict_slashes=False)
 def post_place(city_id):
@@ -83,7 +83,7 @@ def post_place(city_id):
     return make_response(jsonify(places.to_dict()), 201)
 
 
-@app_views.route('/places/<place_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('places/<place_id>', methods=['PUT'], strict_slashes=False)
 def update_place(place_id):
     """Updates place information based on place id"""
     if place_id:
