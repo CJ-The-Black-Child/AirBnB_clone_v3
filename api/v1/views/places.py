@@ -10,7 +10,7 @@ import json
 from os import getenv
 
 
-@app_views.route('/cities/<city_id>/places',
+@app_views.route('cities/<city_id>/places',
                  methods=['GET'],
                  strict_slashes=False)
 def get_places(city_id):
@@ -87,8 +87,8 @@ def post_place(city_id):
 def update_place(place_id):
     """Updates place information based on place id"""
     if place_id:
-        places = storage.get(Place, place_id)
-        if place is None:
+        places_obj = storage.get(Place, place_id)
+        if places_obj is None:
             abort(404)
 
     if not request.get_json():
@@ -101,9 +101,9 @@ def update_place(place_id):
             'city_id',
             'created_at',
                 'updated_at']:
-            setattr(place, key, value)
-    place.save()
-    return make_response(jsonify(place.to_dict()), 200)
+            setattr(places_obj, key, value)
+    places_obj.save()
+    return make_response(jsonify(places_obj.to_dict()), 200)
 
 
 @app_views.route('/places_search', methods=['POST'],
@@ -117,7 +117,7 @@ def places_search():
     if not body_req or (
             not body_req.get('states') and
             not body_req.get('cities') and
-            not bosy_req.get('amenities')
+            not body_req.get('amenities')
     ):
         places = storage.all(Place)
         return jsonify([place.to_dict() for place in places.values()])
@@ -134,6 +134,7 @@ def places_search():
 
     if body_req.get('cities'):
         cities = [storage.get("City", id) for id in body_req.get('cities')]
+
         for city in cities:
             for place in city.places:
                 if place not in places:
