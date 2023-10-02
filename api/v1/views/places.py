@@ -7,8 +7,8 @@ from api.v1.views import app_views
 from flask import Flask, jsonify, abort, make_response,request
 from models import storage
 from models.place import Place
-from models.city import city
-from models.user import user
+from models.city import City
+from models.user import User
 
 @app_views.route("/cities/<city_id>/places", methods=["GET"],
         strict_slashes=False)
@@ -20,7 +20,7 @@ def get_all_places(city_id):
     if not city:
         abort(404)
 
-    places = [place.to_dict() for place in storage.all(Place).values() if 
+    places = [place.to_dict() for place in storage.all(Place).values() if
             place.city_id == city_id]
     return jsonify(places)
 
@@ -35,7 +35,7 @@ def get_place(place_id):
 
     return jsonify(place.to_dict())
 
-@app_views.route('/places/<place_id>', methods=['DELETE'], 
+@app_views.route('/places/<place_id>', methods=['DELETE'],
         strict_slashes=False)
 def delete_place(place_id):
     """
@@ -90,7 +90,7 @@ def update_place(place_id):
 
     if not request.is_json:
         abort(400, description="Not a JSON")
-    
+
     data = request.get_json()
     for key, value in data.items():
         if key in ("id", "created_at", "updated_at", "user_id", "city_id"):
